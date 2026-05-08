@@ -1,0 +1,14 @@
+//example settings.json for Gemini MCP servers
+
+{
+  "mcpServers": {
+    "medical-evidence": {
+      "command": "<VENV_BIN_PATH>/python",
+      "args": ["<PROJECT_ROOT>/server.py"],
+      "env": {
+        "MCP_TRANSPORT": "stdio",
+        "PYTHONPATH": "<PROJECT_ROOT>"
+      }
+    }
+  }
+}

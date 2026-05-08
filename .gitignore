@@ -1,0 +1,46 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+*.egg-info/
+dist/
+build/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.DS_Store
+
+# ChromaDB & Database
+chroma_data/
+*.sqlite3
+*.db
+*.sqlite
+
+# Development
+.ipynb_checkpoints/
+*.ipynb
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+logs/

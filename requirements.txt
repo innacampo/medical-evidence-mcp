@@ -1,0 +1,5 @@
+mcp>=0.1.0
+python-dotenv>=1.0.0
+biopython>=1.81
+chromadb>=0.3.21
+sentence-transformers>=2.2.0
