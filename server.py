@@ -9,11 +9,11 @@ from datetime import datetime, timedelta
 from scoring import compute_composite_score
 
 load_dotenv()
-# Disable Hugging Face Hub connection to prevent unauthenticated request warnings
-os.environ["HF_HUB_OFFLINE"] = "1"
+# Use environment variable if provided
+os.environ["HF_HUB_OFFLINE"] = os.getenv("HF_HUB_OFFLINE", "1")
 
 
-port = int(os.getenv("MCP_PORT", "8001"))
+port = int(os.getenv("MCP_PORT"))
 
 mcp = FastMCP(
     "AXIOM Medical Evidence Server",
@@ -466,7 +466,7 @@ def check_retractions() -> str:
     
     return report
 
-transport = os.getenv("MCP_TRANSPORT", "streamable-http")
+transport = os.getenv("MCP_TRANSPORT")
 
 
 if __name__ == "__main__":
