@@ -13,7 +13,7 @@ load_dotenv()
 os.environ["HF_HUB_OFFLINE"] = "1"
 
 
-port = int(os.getenv("MCP_PORT", "8000"))
+port = int(os.getenv("MCP_PORT", "8001"))
 
 mcp = FastMCP(
     "AXIOM Medical Evidence Server",
@@ -22,63 +22,7 @@ mcp = FastMCP(
 )
 
 # --- PromptOpinion FHIR Context Extension ---
-original_create_initialization_options = mcp._mcp_server.create_initialization_options
-
-def custom_create_initialization_options(*args, **kwargs):
-    options = original_create_initialization_options(*args, **kwargs)
-    if not hasattr(options.capabilities, '__pydantic_extra__') or options.capabilities.__pydantic_extra__ is None:
-        options.capabilities.__pydantic_extra__ = {}
-    
-    options.capabilities.__pydantic_extra__['extensions'] = {
-        "ai.promptopinion/fhir-context": {
-            "scopes": [
-                {
-                    "name": "patient/Patient.rs",
-                    "required": True
-                },
-                {
-                    "name": "patient/Condition.rs"
-                },
-                {
-                    "name": "offline_access"
-                }
-            ]
-        }
-    }
-    return options
-
-mcp._mcp_server.create_initialization_options = custom_create_initialization_options
-
-from mcp.server.fastmcp import Context
-import requests
-
-def get_fhir_context(ctx: Context) -> dict | None:
-    """Extract PromptOpinion FHIR context from the incoming request headers."""
-    request = ctx.request_context.request
-    if not request:
-        return None
-    
-    headers = request.headers
-    return {
-        "server_url": headers.get("X-FHIR-Server-URL"),
-        "access_token": headers.get("X-FHIR-Access-Token"),
-        "patient_id": headers.get("X-Patient-ID"),
-        "refresh_token": headers.get("X-FHIR-Refresh-Token"),
-        "refresh_url": headers.get("X-FHIR-Refresh-Url"),
-    }
-
-def refresh_fhir_token(refresh_url: str, refresh_token: str) -> dict:
-    """Refresh the FHIR access token using PromptOpinion's endpoint."""
-    response = requests.post(
-        refresh_url, 
-        json={"refreshToken": refresh_token}
-    )
-    response.raise_for_status()
-    data = response.json()
-    return {
-        "access_token": data.get("accessToken"),
-        "refresh_token": data.get("refreshToken")
-    }
+# Deleted
 # --------------------------------------------
 
 Entrez.email = os.getenv("ENTREZ_EMAIL")
