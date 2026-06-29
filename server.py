@@ -89,11 +89,7 @@ def search_pubmed(query: str, max_results: int = 5) -> str:
 
 chroma_client = chromadb.PersistentClient(
     path="./chroma_data",
-    settings=Settings(
-        is_persistent=True,
-        persist_directory="/tmp/chroma_meta",  # Keeps SQLite locks in the local container container memory
-        anonymized_telemetry=False
-    )
+    settings=Settings(anonymized_telemetry=False)
 )
 
 collection = chroma_client.get_or_create_collection(
