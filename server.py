@@ -85,7 +85,14 @@ def search_pubmed(query: str, max_results: int = 5) -> str:
 
 
 # Initialize once at module level
-chroma_client = chromadb.PersistentClient(path="./chroma_data")
+chroma_client = chromadb.PersistentClient(
+    path="./chroma_data",
+    settings=chromadb.Settings(
+        is_persistent=True, 
+        anonymized_telemetry=False
+    )
+)
+
 collection = chroma_client.get_or_create_collection(
     name="medical_evidence",
     metadata={"hnsw:space": "cosine"}
