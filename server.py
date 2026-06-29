@@ -4,6 +4,7 @@ import sys
 from dotenv import load_dotenv
 from Bio import Entrez
 import chromadb
+from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 from datetime import datetime, timedelta
 from scoring import compute_composite_score
@@ -85,8 +86,14 @@ def search_pubmed(query: str, max_results: int = 5) -> str:
 
 
 # Initialize once at module level
+
 chroma_client = chromadb.PersistentClient(
-    path="./chroma_data"
+    path="./chroma_data",
+    settings=Settings(
+        is_persistent=True,
+        persist_directory="/tmp/chroma_meta",  # Keeps SQLite locks in the local container container memory
+        anonymized_telemetry=False
+    )
 )
 
 collection = chroma_client.get_or_create_collection(
